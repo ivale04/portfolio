@@ -16,7 +16,7 @@ import { useEffect, useRef, useState } from "react";
 import { InfiniteData, useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { getAllArtworks } from "@/utils/supabase/queries/artwork";
 import Gallery from "@/components/gallery";
-import ArtworkCard from "@/components/artwork-card";
+import ArtworkCard from "@/components/artwork-card"; 
 
 
 const geistSans = Geist({
@@ -101,11 +101,11 @@ export default function Home() {
           className="pt-[5lvh]">
             <div className="">
               <TabsList className="grid w-full grid-cols-5 self-center justify-center ">
-                <TabsTrigger value="ALL WORKS">ALL WORKS</TabsTrigger>
-                <TabsTrigger value="FOR SALE">FOR SALE</TabsTrigger>
-                <TabsTrigger value="COMMISSIONS">COMMISSIONS</TabsTrigger>
-                <TabsTrigger value="ABOUT">ABOUT</TabsTrigger>
-                <TabsTrigger value="CONTACT">CONTACT</TabsTrigger>
+                <TabsTrigger value="ALL WORKS" className="hover:bg-stone-50">ALL WORKS</TabsTrigger>
+                <TabsTrigger value="FOR SALE" className="hover:bg-stone-50">FOR SALE</TabsTrigger>
+                <TabsTrigger value="COMMISSIONS" className="hover:bg-stone-50">COMMISSIONS</TabsTrigger>
+                <TabsTrigger value="ABOUT" className="hover:bg-stone-50">ABOUT</TabsTrigger> 
+                <TabsTrigger value="CONTACT" className="hover:bg-stone-50">CONTACT</TabsTrigger>
               </TabsList>
             </div>
           </Tabs>
@@ -114,11 +114,23 @@ export default function Home() {
 
           {/* <Gallery></Gallery> */}
           <div className="columns-2 sm:columns-2 lg:columns-3 space-y-[4lvh] gap-12 w-full max-w-4xl mx-auto px-8">
-            
+
             <ArtworkCard title="Topsail Sunset" year="2025" path={"/images/topsail-sunset.jpeg"} price={"150.00"}></ArtworkCard>
+            <ArtworkCard path="/images/enjoying the sunshine.jpeg" title={"Enjoying the Sunshine"} year={"2025"} price={undefined}></ArtworkCard>
+
+
             <ArtworkCard path={"/images/cliff.jpeg"} title={"cliff"} year={"2024"} price={undefined}></ArtworkCard>
+            <ArtworkCard path={"/images/daddy day-out.jpeg"} title={"daddy day-out!"} year={"2024"} price={undefined}></ArtworkCard>
+            
+
+            <ArtworkCard path="/images/mommy.jpeg" title={"mommy"} year={"2024"} price={undefined}></ArtworkCard>
+            <ArtworkCard path="/images/daddy.jpeg" title={"daddy"} year={"2024"} price={undefined}></ArtworkCard>
+            <ArtworkCard path="/images/sad vacation.jpeg" title={"SADVACATION"} year={"2024"} price={undefined}></ArtworkCard>
+
             <ArtworkCard path="/images/still life with mystery object.jpeg" title={"Still Life With Mystery Object"} year={"2023"} price={undefined}></ArtworkCard>
             <ArtworkCard path="/images/self portrait at 18:19.jpeg" title={"Self Portrait at 18/19"} year={"2023"} price={undefined}></ArtworkCard>
+            <ArtworkCard path={"/images/alla prima banana.jpeg"} title={"Alla-prima Banana"} year={"2023"} price={undefined}></ArtworkCard>
+
             <ArtworkCard path="/images/holiday wonder.jpeg" title={"Holiday Wonder"} year={"2021"} price={undefined}></ArtworkCard>
 
 

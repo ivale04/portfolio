@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button"
 import { Info, X } from "lucide-react"
 import PurchaseInfoTooltip from "./purchase-info-dialog"
 import { Dialog, DialogClose, DialogContent, DialogOverlay, DialogTrigger } from "@radix-ui/react-dialog"
+import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
+
 
 type ArtworkCardProps = {
     title: string
@@ -18,6 +20,8 @@ type ArtworkCardProps = {
 export default function ArtworkCard({ title, year, price, path }: ArtworkCardProps) {
   return (
     <Dialog>
+            <DialogOverlay className="fixed h-screen inset-0 z-10 bg-black/55 backdrop-blur-xl" />
+
     <div className="pt-3 pb-3 relative mb-8 break-inside-avoid ease-in-out transition transform duration-150 hover:-translate-y-0.5">
     <div className="w-full max-w-md mx-auto">
       <div className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-150 hover:shadow-xl dark:bg-gray-950">
@@ -44,14 +48,27 @@ export default function ArtworkCard({ title, year, price, path }: ArtworkCardPro
     </div>
     </div>
 
-    <DialogContent >
-    <DialogOverlay className="fixed inset-0 z-40 bg-black/55 backdrop-blur-xl" />
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-10 transition-all duration-150 animate-in fade-in-0 zoom-in-95">
-         <img src={path} alt={`Full size of ${title}`} className="w-auto h-full rounded-sm brightness-105 shadow-[0px_0px_120px_rgba(0,0,0,.68)]"></img> 
+    <DialogContent className="fixed inset-0 z-50 flex items-center justify-center p-10 transition-all duration-150 animate-in fade-in-0 zoom-in-95">
+        <TransformWrapper
+          initialScale={1}
+          minScale={0.5}
+          maxScale={4}
+          wheel={{ step: 0.1 }}
+          doubleClick={{ disabled: false }}
+          pinch={{ disabled: false }}
+          panning={{ disabled: false }}
+        >
+        <TransformComponent>
+
+    {/* <div className="fixed inset-0 z-50 flex items-center justify-center p-10 transition-all duration-150 animate-in fade-in-0 zoom-in-95"> */}
+         <img src={path} alt={`Full size of ${title}`} className=" h-[90vh] w-auto max-w-full object-contain rounded-md brightness-105 shadow-[0px_0px_120px_rgba(0,0,0,.68)]"></img> 
+         </TransformComponent> 
+        </TransformWrapper>
+        
          <DialogClose asChild>
         <button className="absolute top-10 right-5 text-white size-20"><X /></button>
         </DialogClose>
-    </div>
+    {/* </div> */}
     </DialogContent>
     </Dialog>
   )
