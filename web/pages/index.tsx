@@ -7,6 +7,18 @@ import { Menubar } from "@/components/ui/menubar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 
+import { createSupabaseComponentClient } from "@/utils/supabase/clients/component";
+import { createSupabaseServerClient } from "@/utils/supabase/clients/server-props";
+import { GetServerSidePropsContext } from "next";
+import { z } from "zod";
+import { User } from "@supabase/supabase-js";
+import { useEffect, useRef, useState } from "react";
+import { InfiniteData, useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
+import { getAllArtworks } from "@/utils/supabase/queries/artwork";
+import Gallery from "@/components/gallery";
+import ArtworkCard from "@/components/artwork-card";
+
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -17,7 +29,56 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+enum HomePageTab {
+  WORKS = "ALL WORKS",
+  FOR_SALE = "FOR SALE",
+  COMMSSIONS = "COMMISSIONS", 
+  ABOUT = "ABOUT",
+  CONTACT = "CONTACT"
+}
+
+
 export default function Home() {
+  const [user, setUser] = useState<User | null>(null);
+
+  const queryClient = useQueryClient();
+  const supabase = createSupabaseComponentClient();
+
+  const [activeTab, setActiveTab] = useState<string>(HomePageTab.WORKS);
+
+  // type Fake = {
+  //   fetchNextPage: () => Promise<void>;
+  // };
+  // const {fetchNextPage }: Fake = {
+  //   fetchNextPage: async () => {},
+  // };
+
+  const refresh = () => {
+    queryClient.resetQueries();
+  };
+
+  const {
+    data: artworks,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteQuery({
+    queryKey: ["artworks"],
+    queryFn: async ({ pageParam = 0 }) => {
+      const supabase = createSupabaseComponentClient();
+  
+      const { data, error } = await supabase
+        .from("artwork")
+        .select("*")
+        .order("artwork_added_date", { ascending: false })
+        .range(pageParam * 10, (pageParam + 1) * 10 - 1);
+  
+      if (error) throw new Error(error.message);
+      return data ?? [];
+    },
+    initialPageParam: 0,
+    getNextPageParam: (_lastPage, pages) => pages.length,
+  });
+
   return (
     <div
       className={`${geistSans.className} ${geistMono.className} sm:p-20 font-[family-name:var(--font-geist-sans)]`}
@@ -32,29 +93,42 @@ export default function Home() {
       <section className="flex flex-col items-center">
         <Separator/>
 
-        <div className="flex flex-col justify-items-center items-center"> 
+        <div className="flex flex-col justify-items-center items-center bg-stone-50 pl-14 pr-14"> 
 
-          <Tabs defaultValue="works" className="w-screen pt-[5lvh]">
-            <TabsList className="grid w-fit grid-cols-2 self-center justify-center">
-              <TabsTrigger value="about">WORKS</TabsTrigger>
-              <TabsTrigger value="works">ABOUT</TabsTrigger>
-            </TabsList>
-            <TabsContent value="about">
-            </TabsContent>
-            <TabsContent value="works">
-            </TabsContent>
+          <Tabs 
+          value={activeTab.toString()}
+          onValueChange={(tab) => setActiveTab(tab)} 
+          className="pt-[5lvh]">
+            <div className="">
+              <TabsList className="grid w-full grid-cols-5 self-center justify-center ">
+                <TabsTrigger value="ALL WORKS">ALL WORKS</TabsTrigger>
+                <TabsTrigger value="FOR SALE">FOR SALE</TabsTrigger>
+                <TabsTrigger value="COMMISSIONS">COMMISSIONS</TabsTrigger>
+                <TabsTrigger value="ABOUT">ABOUT</TabsTrigger>
+                <TabsTrigger value="CONTACT">CONTACT</TabsTrigger>
+              </TabsList>
+            </div>
           </Tabs>
 
-          <p className="text-xl pt-[8lvh] pb-[12lvh]"> WORKS </p> 
+          <p className="flex flex-col justify-center text-xl font-medium pt-[8lvh] pb-[12lvh]"> {activeTab} </p> 
 
-          <div className="columns-1 sm:columns-2 lg:columns-3 space-y-[2lvh] gap-4 w-4xl">
-            <Card className="h-50"></Card>
+          {/* <Gallery></Gallery> */}
+          <div className="columns-2 sm:columns-2 lg:columns-3 space-y-[4lvh] gap-12 w-full max-w-4xl mx-auto px-8">
+            
+            <ArtworkCard title="Topsail Sunset" year="2025" path={"/images/topsail-sunset.jpeg"} price={"150.00"}></ArtworkCard>
+            <ArtworkCard path={"/images/cliff.jpeg"} title={"cliff"} year={"2024"} price={undefined}></ArtworkCard>
+            <ArtworkCard path="/images/still life with mystery object.jpeg" title={"Still Life With Mystery Object"} year={"2023"} price={undefined}></ArtworkCard>
+            <ArtworkCard path="/images/self portrait at 18:19.jpeg" title={"Self Portrait at 18/19"} year={"2023"} price={undefined}></ArtworkCard>
+            <ArtworkCard path="/images/holiday wonder.jpeg" title={"Holiday Wonder"} year={"2021"} price={undefined}></ArtworkCard>
+
+
+            {/* <Card className="h-50"></Card>
             <Card className="h-70"></Card>
             <Card className="h-100"></Card>
             <Card className="h-90"></Card>
             <Card className="h-80"></Card>
             <Card className="h-90"></Card>
-            <Card className="h-65"></Card>
+            <Card className="h-65"></Card> */}
           </div>
         </div>
       </section>

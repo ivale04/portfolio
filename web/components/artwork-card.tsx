@@ -1,0 +1,58 @@
+/**
+ * v0 by Vercel.
+ * @see https://v0.dev/t/jvOgkyh3xyN
+ * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
+ */
+import { Button } from "@/components/ui/button"
+import { Info, X } from "lucide-react"
+import PurchaseInfoTooltip from "./purchase-info-dialog"
+import { Dialog, DialogClose, DialogContent, DialogOverlay, DialogTrigger } from "@radix-ui/react-dialog"
+
+type ArtworkCardProps = {
+    title: string
+    year: string
+    price: string | undefined
+    path: string
+}
+
+export default function ArtworkCard({ title, year, price, path }: ArtworkCardProps) {
+  return (
+    <Dialog>
+    <div className="pt-3 pb-3 relative mb-8 break-inside-avoid ease-in-out transition transform duration-150 hover:-translate-y-0.5">
+    <div className="w-full max-w-md mx-auto">
+      <div className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-150 hover:shadow-xl dark:bg-gray-950">
+
+        <DialogTrigger asChild>
+        <img
+          src={path}
+          alt="Product Image"
+          className="w-full h-auto object-cover transition duration-75 hover:brightness-107"
+        />
+        </DialogTrigger>
+
+        <div className="p-4 space-y-2">
+          <h3 className="text-l font-medium">{title}</h3>
+          <p className="text-gray-500 dark:text-gray-400">{year}</p>
+          {price && (
+          <div className="flex items-center justify-between">
+            <span className="text-md hover:text-emerald-900">${price}</span>
+            <Button variant={"ghost"}><PurchaseInfoTooltip></PurchaseInfoTooltip></Button>
+          </div>
+          )}
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <DialogContent >
+    <DialogOverlay className="fixed inset-0 z-40 bg-black/55 backdrop-blur-xl" />
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-10 transition-all duration-150 animate-in fade-in-0 zoom-in-95">
+         <img src={path} alt={`Full size of ${title}`} className="w-auto h-full rounded-sm brightness-105 shadow-[0px_0px_120px_rgba(0,0,0,.68)]"></img> 
+         <DialogClose asChild>
+        <button className="absolute top-10 right-5 text-white size-20"><X /></button>
+        </DialogClose>
+    </div>
+    </DialogContent>
+    </Dialog>
+  )
+}
