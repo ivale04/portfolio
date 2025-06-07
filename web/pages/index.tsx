@@ -17,6 +17,13 @@ import { InfiniteData, useInfiniteQuery, useQueryClient } from "@tanstack/react-
 import { getAllArtworks } from "@/utils/supabase/queries/artwork";
 import Gallery from "@/components/gallery";
 import ArtworkCard from "@/components/artwork-card"; 
+import { Mail } from "lucide-react";
+import { getFallbackRouteParams } from "next/dist/server/request/fallback-params";
+
+import Link from "next/link";
+import { useRouter } from "next/router";
+import Layout from "@/components/layout";
+
 
 
 const geistSans = Geist({
@@ -30,7 +37,7 @@ const geistMono = Geist_Mono({
 });
 
 enum HomePageTab {
-  WORKS = "ALL WORKS",
+  WORKS = "all works",
   FOR_SALE = "FOR SALE",
   COMMSSIONS = "COMMISSIONS", 
   ABOUT = "ABOUT",
@@ -45,6 +52,12 @@ export default function Home() {
   const supabase = createSupabaseComponentClient();
 
   const [activeTab, setActiveTab] = useState<string>(HomePageTab.WORKS);
+
+  // const fetchDataFn =
+  //   activeTab === HomePageTab.WORKS ? getAllWorks
+  //     : activeTab === HomePageTab.FOR_SALE ? getForSale
+  //     : activeTab === HomePageTab.ABOUT ? getAbout
+  //     : activeTab === HomePageTab.CONTACT ? getContact;
 
   // type Fake = {
   //   fetchNextPage: () => Promise<void>;
@@ -79,71 +92,106 @@ export default function Home() {
     getNextPageParam: (_lastPage, pages) => pages.length,
   });
 
+  const router = useRouter();
+  const current = router.pathname;
+
+
   return (
     <div
-      className={`${geistSans.className} ${geistMono.className} sm:p-20 font-[family-name:var(--font-geist-sans)]`}
+      className={`${geistSans.className} ${geistMono.className}  font-[family-name:var(--font-geist-sans)]`}
     >
-      <main className="flex flex-col items-center justify-center min-h-screen">
+      <Layout>
+      <main className="flex flex-col items-center justify-center min-h-[80lvh]">
           <div className="flex flex-col row-start-2 sm:items-start pb-[30lvh]">
             <p className="text-4xl font-bold"> IVONE ALEXANDER </p>
             <p> fine artist </p>
           </div>
-      </main>
+      </main> 
 
       <section className="flex flex-col items-center">
-        <Separator/>
+        <Separator className="bg-stone-200 w-screen"/>
 
-        <div className="flex flex-col justify-items-center items-center bg-stone-50 pl-14 pr-14"> 
+        
 
-          <Tabs 
+        
+        {/* <Tabs 
           value={activeTab.toString()}
           onValueChange={(tab) => setActiveTab(tab)} 
-          className="pt-[5lvh]">
+          className="drop-shadow-md pt-[2lvh] fixed z-5 bg-white top-0 left-0 w-full text-center">
             <div className="">
-              <TabsList className="grid w-full grid-cols-5 self-center justify-center ">
+              <TabsList className="grid w-full grid-cols-4 self-center justify-center pr-[10lvw] pl-[10lvw]">
                 <TabsTrigger value="ALL WORKS" className="hover:bg-stone-50">ALL WORKS</TabsTrigger>
                 <TabsTrigger value="FOR SALE" className="hover:bg-stone-50">FOR SALE</TabsTrigger>
-                <TabsTrigger value="COMMISSIONS" className="hover:bg-stone-50">COMMISSIONS</TabsTrigger>
                 <TabsTrigger value="ABOUT" className="hover:bg-stone-50">ABOUT</TabsTrigger> 
-                <TabsTrigger value="CONTACT" className="hover:bg-stone-50">CONTACT</TabsTrigger>
+                <TabsTrigger value="CONTACT" className="hover:bg-stone-50">CONTACT<Mail /></TabsTrigger>
               </TabsList>
             </div>
-          </Tabs>
+        </Tabs> */}
 
-          <p className="flex flex-col justify-center text-xl font-medium pt-[8lvh] pb-[12lvh]"> {activeTab} </p> 
+        <div className="w-screen">
+          <p className="bg-white rounded-3xl pl-8 pr-8 flex flex-col text-center justify-center justify-items-center text-xl font-light italic pt-[8lvh] pb-[8lvh]"> {activeTab} </p> 
+          </div>
+          <Separator className="bg-stone-200"/> 
 
-          {/* <Gallery></Gallery> */}
-          <div className="columns-2 sm:columns-2 lg:columns-3 space-y-[4lvh] gap-12 w-full max-w-4xl mx-auto px-8">
+        <div className="flex flex-col justify-items-center items-center bg-stone-50 pl-8 pr-8 pt-10 pb-25 h-full">  
 
-            <ArtworkCard title="Topsail Sunset" year="2025" path={"/images/topsail-sunset.jpeg"} price={"150.00"}></ArtworkCard>
+          
+          <div className="pt-[8lvh] columns-3xs sm:columns-2 lg:columns-4  gap-7 w-full max-w-4xl mx-auto px-5">
+
+            <ArtworkCard title="Topsail Sunrise" year="2025" path={"/images/topsail-sunset.jpeg"} price={"150.00"}></ArtworkCard>
             <ArtworkCard path="/images/enjoying the sunshine.jpeg" title={"Enjoying the Sunshine"} year={"2025"} price={undefined}></ArtworkCard>
 
 
-            <ArtworkCard path={"/images/cliff.jpeg"} title={"cliff"} year={"2024"} price={undefined}></ArtworkCard>
-            <ArtworkCard path={"/images/daddy day-out.jpeg"} title={"daddy day-out!"} year={"2024"} price={undefined}></ArtworkCard>
-            
-
-            <ArtworkCard path="/images/mommy.jpeg" title={"mommy"} year={"2024"} price={undefined}></ArtworkCard>
-            <ArtworkCard path="/images/daddy.jpeg" title={"daddy"} year={"2024"} price={undefined}></ArtworkCard>
+            <ArtworkCard path={"/images/cliff hq.jpeg"} title={"cliff"} year={"2024"} price={undefined}></ArtworkCard>
+            <ArtworkCard path="/images/mommy.jpeg" title={"mom"} year={"2024"} price={undefined}></ArtworkCard>
+            <ArtworkCard path="/images/daddy.jpeg" title={"dad"} year={"2024"} price={undefined}></ArtworkCard>
+            <ArtworkCard path={"/images/daddy day-out.jpeg"} title={"daddy day-out"} year={"2024"} price={undefined}></ArtworkCard>
+            <ArtworkCard path="/images/lightning.jpeg" title="lightning mcqueen!!" year="2024" price={undefined}></ArtworkCard>
+            <ArtworkCard path="/images/ceiling fan.jpeg" title="floor" year="2024" price={undefined}></ArtworkCard>
             <ArtworkCard path="/images/sad vacation.jpeg" title={"SADVACATION"} year={"2024"} price={undefined}></ArtworkCard>
 
-            <ArtworkCard path="/images/still life with mystery object.jpeg" title={"Still Life With Mystery Object"} year={"2023"} price={undefined}></ArtworkCard>
+
             <ArtworkCard path="/images/self portrait at 18:19.jpeg" title={"Self Portrait at 18/19"} year={"2023"} price={undefined}></ArtworkCard>
-            <ArtworkCard path={"/images/alla prima banana.jpeg"} title={"Alla-prima Banana"} year={"2023"} price={undefined}></ArtworkCard>
+            <ArtworkCard path="/images/still life with mystery object.jpeg" title={"Still Life With Mystery Object"} year={"2023"} price={undefined}></ArtworkCard>
+            <ArtworkCard path={"/images/alla prima banana.jpeg"} title={"Alla Prima Banana"} year={"2023"} price={undefined}></ArtworkCard>
+            <ArtworkCard path="/images/cheese.jpeg" title="Cheese" year="2023" price={undefined}></ArtworkCard>
+            <ArtworkCard path="/images/pepper.jpeg" title="Pepper" year="2023" price={undefined}></ArtworkCard>
+            <ArtworkCard path="/images/the cape fear.jpg" title="Sunset Over the Cape Fear" year="2023" price={undefined}></ArtworkCard>
+            <ArtworkCard path="/images/sunset plein air.JPG" title="Poplar Grove Plein Air" year="2023" price={undefined}></ArtworkCard>
+
+
+            <ArtworkCard path="/images/august plein air.jpeg" title="August Creek" year="2022" price={undefined}></ArtworkCard>
+            <ArtworkCard path="/images/cemetary 2.jpeg" title="Oakdale Sunbeams" year="2022" price={undefined}></ArtworkCard>
+            <ArtworkCard path="/images/cemetary.jpeg" title="Gray Day" year="2022" price={undefined}></ArtworkCard>
+
 
             <ArtworkCard path="/images/holiday wonder.jpeg" title={"Holiday Wonder"} year={"2021"} price={undefined}></ArtworkCard>
+            <ArtworkCard path="/images/grandparents.jpeg" title="GG and Vôvô" year="2021" price={undefined}></ArtworkCard>
+            <ArtworkCard path="/images/pistachio.JPG" title="Pistachio" year="2021" price={undefined}></ArtworkCard>
 
 
-            {/* <Card className="h-50"></Card>
-            <Card className="h-70"></Card>
-            <Card className="h-100"></Card>
-            <Card className="h-90"></Card>
-            <Card className="h-80"></Card>
-            <Card className="h-90"></Card>
-            <Card className="h-65"></Card> */}
+
+            {/* Drawings */}
+            <ArtworkCard path="/images/sketch 4.jpeg" title="Croquis 4" year="2024" price={undefined}></ArtworkCard>
+            <ArtworkCard path="/images/sketch 3.jpeg" title="Croquis 3" year="2024" price={undefined}></ArtworkCard>
+            <ArtworkCard path="/images/sketch 2.jpeg" title="Croquis 2" year="2024" price={undefined}></ArtworkCard>
+            <ArtworkCard path="/images/sketch 1.jpeg" title="Croquis 1" year="2024" price={undefined}></ArtworkCard>
+            <ArtworkCard path="/images/brent.jpeg" title="Brent" year="2024" price={undefined}></ArtworkCard>
+            <ArtworkCard path="/images/raine.jpeg" title="Raine" year="2024" price={undefined}></ArtworkCard>
+            <ArtworkCard path="/images/fallen angel.jpeg" title="Fallen Angel" year="2024" price={undefined}></ArtworkCard>
+            <ArtworkCard path="/images/one and susan.jpg" title="Doctor Who and Susan" year="2021" price={undefined}></ArtworkCard>
+
+
+
+
+            {/* Digital */}
+            {/* <ArtworkCard path="/images/Bookmark_Entry.jpeg" title="UNC Libraries Commemorative Bookmark" year="2025"></ArtworkCard> */}
+
           </div>
+          <p className="pt-15 text-xs text-stone-500"> nothing more to see! </p>
         </div>
       </section>
+      </Layout>  
 
       {/* <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
         <a

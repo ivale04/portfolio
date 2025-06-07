@@ -22,7 +22,7 @@ export default function ArtworkCard({ title, year, price, path }: ArtworkCardPro
     <Dialog>
             <DialogOverlay className="fixed h-screen inset-0 z-10 bg-black/55 backdrop-blur-xl" />
 
-    <div className="pt-3 pb-3 relative mb-8 break-inside-avoid ease-in-out transition transform duration-150 hover:-translate-y-0.5">
+    <div className="pt-2.75 pb-2.75 relative mb-8 break-inside-avoid ease-in-out transition transform duration-150 hover:-translate-y-0.5">
     <div className="w-full max-w-md mx-auto">
       <div className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-150 hover:shadow-xl dark:bg-gray-950">
 
@@ -34,12 +34,12 @@ export default function ArtworkCard({ title, year, price, path }: ArtworkCardPro
         />
         </DialogTrigger>
 
-        <div className="p-4 space-y-2">
-          <h3 className="text-l font-medium">{title}</h3>
-          <p className="text-gray-500 dark:text-gray-400">{year}</p>
+        <div className="pl-3 pr-3 pt-1.5 pb-2.5 space-y-0.75">
+          <p className="text-sm font-medium">{title}</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400">{year}</p>
           {price && (
           <div className="flex items-center justify-between">
-            <span className="text-md hover:text-emerald-900">${price}</span>
+            <span className="text-sm hover:text-emerald-900">${price}</span>
             <Button variant={"ghost"}><PurchaseInfoTooltip></PurchaseInfoTooltip></Button>
           </div>
           )}

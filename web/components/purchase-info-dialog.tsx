@@ -35,7 +35,7 @@ export default function PurchaseInfoDialog() {
 
       <DialogContent className={`${geistSans.className} ${geistMono.className} font-[family-name:var(--font-geist-sans)] pb-10`}>
         <DialogHeader>
-          <DialogTitle className={`flex justify-center pb-3 ${geistSans.className} ${geistMono.className} font-[family-name:var(--font-geist-sans)]`}>Contact me to purchase!</DialogTitle>
+          <DialogTitle className={`flex justify-center pb-3 ${geistSans.className} ${geistMono.className} font-[family-name:var(--font-geist-sans)]`}>Email or DM on Instagram to purchase</DialogTitle>
 
             <div className="flex justify-center gap-4 py-4">
           <a href="mailto:ivone.alexander.art@gmail.com">

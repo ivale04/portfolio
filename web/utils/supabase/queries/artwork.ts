@@ -91,3 +91,19 @@ export const getAllArtworks = async (
 
   return Artwork.array().parse(data);
 };
+
+export const getAllWorks = () => {
+
+}
+
+export const getForSale = () => {
+
+}
+
+export const getAbout = () => {
+
+}
+
+export const getContact = () => {
+
+}
