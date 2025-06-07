@@ -24,7 +24,7 @@ export default function AboutPage() {
           <p className="text-xl font-light italic pt-[8lvh] pb-[8lvh]"> about </p> 
         <Separator className="bg-stone-200"/> 
 
-        <div className="flex flex-col pt-18 pl-[8vh] pr-[8vh] items-center self-center justify-center place-content-center">
+        <div className="flex flex-col pt-8 pl-[8vh] pr-[8vh] items-center self-center justify-center place-content-center">
 
             <img className="pb-[5lvh] lg:max-w-0 w-sm rounded-xs" src="/images/me.JPG"></img>
 

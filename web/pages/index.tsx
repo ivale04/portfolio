@@ -156,13 +156,13 @@ export default function Home() {
             <ArtworkCard path={"/images/alla prima banana.jpeg"} title={"Alla Prima Banana"} year={"2023"} price={undefined}></ArtworkCard>
             <ArtworkCard path="/images/cheese.jpeg" title="Cheese" year="2023" price={undefined}></ArtworkCard>
             <ArtworkCard path="/images/pepper.jpeg" title="Pepper" year="2023" price={undefined}></ArtworkCard>
-            <ArtworkCard path="/images/the cape fear.jpg" title="Sunset Over the Cape Fear" year="2023" price={undefined}></ArtworkCard>
-            <ArtworkCard path="/images/sunset plein air.JPG" title="Poplar Grove Plein Air" year="2023" price={undefined}></ArtworkCard>
+            <ArtworkCard path="/images/the cape fear.jpg" title="Sunset Over the Cape Fear" year="2023" price={"100.00"}></ArtworkCard>
+            <ArtworkCard path="/images/sunset plein air.JPG" title="Poplar Grove Plein Air" year="2023" price={"100.00"}></ArtworkCard>
 
 
             <ArtworkCard path="/images/august plein air.jpeg" title="August Creek" year="2022" price={undefined}></ArtworkCard>
             <ArtworkCard path="/images/cemetary 2.jpeg" title="Oakdale Sunbeams" year="2022" price={undefined}></ArtworkCard>
-            <ArtworkCard path="/images/cemetary.jpeg" title="Gray Day" year="2022" price={undefined}></ArtworkCard>
+            <ArtworkCard path="/images/cemetary.jpeg" title="Gray Day" year="2022" price={"100.00"}></ArtworkCard>
 
 
             <ArtworkCard path="/images/holiday wonder.jpeg" title={"Holiday Wonder"} year={"2021"} price={undefined}></ArtworkCard>
@@ -188,7 +188,7 @@ export default function Home() {
             {/* <ArtworkCard path="/images/Bookmark_Entry.jpeg" title="UNC Libraries Commemorative Bookmark" year="2025"></ArtworkCard> */}
 
           </div>
-          <p className="pt-15 text-xs text-stone-500"> nothing more to see! </p>
+          <p className="pt-10 text-xs text-stone-400 font-sans"> You've reached the end! </p>
         </div>
       </section>
       </Layout>  
